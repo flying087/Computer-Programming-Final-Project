@@ -54,7 +54,6 @@ boss_bullets = []
 #boss.atk_spiral(100, boss_bullets_test)
 
 # Pre-deicded boss attacks. Format is [attack, arguments, how many seconds in it should trigger]
-# make checking formula do this: BOSS_TIMER_SECONDS - third value * FPS
 boss_attacks_timed = [
     (boss.atk_spiral, (50, boss_bullets), 0),
     (boss.atk_spiral, (50, boss_bullets, 10), 0.1),
@@ -63,6 +62,7 @@ boss_attacks_timed = [
     (boss.atk_spiral, (50, boss_bullets, 25), 0.4),
     (boss.atk_homing, (player.x, player.y, boss_bullets), 1),
     (boss.move, (10, 10, 2, .04), 2),
+    (boss.atk_wave, (5, 45, 5, boss_bullets), 3),
     (boss.atk_spiral, (50, boss_bullets), 4),
     (boss.move, (600, 200, 3, .04), 6),
     (boss.atk_homing, (player.x, player.y, boss_bullets), 6.5),
@@ -102,6 +102,8 @@ boss_attacks_timed = [
 
 boss_hp_text = font.render("Boss HP", False, "White")
 
+player_iframe_alarm = 3 * FPS
+
 current_boss_movement = None
 current_boss_movement_args = None
 def main():
@@ -114,6 +116,7 @@ def main():
     global current_boss_movement
     global current_boss_movement_args
     global boss_met_target
+    global player_iframe_alarm
 
     while running:
         screen.fill(BACKGROUND_COLOR)
@@ -135,9 +138,10 @@ def main():
             player_bullets.append(Player_Bullet(player.x, player.y))
             player_bullet_cooldown = 10
 
-    
+        player.show_hitbox = False
         if keys[pygame.K_x]:
             PLAYER_SPEED = 2
+            player.show_hitbox = True
         else:
             PLAYER_SPEED = 4
 
@@ -173,6 +177,7 @@ def main():
                     boss_met_target = False
 
 
+
         # Drawing
                 
 
@@ -189,17 +194,37 @@ def main():
         # Draw boss above that
         boss.draw(screen)
 
+        if player.invincible == True:
+            player_iframe_alarm = player.iframe(player_iframe_alarm)
+
         # Draw boss bullets above that
         for bullet in range(len(boss_bullets) - 1, -1, -1):
             boss_bullets[bullet].draw(screen)
             boss_bullets[bullet].move(2)
+            offset = (
+                boss_bullets[bullet].sprite_rect.x - player.hitbox_rect.x,
+                boss_bullets[bullet].sprite_rect.y - player.hitbox_rect.y
+            )
+            if player.hitbox.overlap(boss_bullets[bullet].hitbox, offset) and player.invincible == False:
+                player.lives -= 1
+                player.invincible = True
+                boss_bullets.pop(bullet)
+
+
+        player_hp_text = font.render(f"Player Lives: {player.lives}", False, "White")
 
 
         # GUI elements are drawn last
         screen.blit(boss_hp_text, (300, 5))
+        screen.blit(player_hp_text, (5, 465))
         
         if boss_attacks_timer > -1:
             boss_attacks_timer -= 1 # ticks down the timer while it's still active
+
+        if player.lives < 1:
+            gameover_text = font.render("Game Over", False, "White")
+            screen.blit(gameover_text, (320, 240))
+
         pygame.display.update()
         clock.tick(FPS)
 

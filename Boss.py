@@ -1,7 +1,6 @@
 import pygame
 import math
 from Bullets import Boss_Bullet
-from pygame.math import Vector2
 
 class Boss:
     def __init__(self, x, y, hp):
@@ -27,8 +26,9 @@ class Boss:
 
         bullet_array.append(Boss_Bullet(self.x, self.y, math.degrees(math.atan2(dy, dx))))
 
-    def atk_wave(self, wave_number, bullets_in_wave, direction, bullet_array):
-        pass
+    def atk_wave(self, bullets_in_wave, starting_direction, space, bullet_array):
+        for i in range(bullets_in_wave):
+            bullet_array.append(Boss_Bullet(self.x, self.y, starting_direction + i * space))
         
     def move(self, x_target, y_target, speed, weight):
 

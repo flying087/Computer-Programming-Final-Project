@@ -39,11 +39,17 @@ class Boss_Bullet:
         self.sprite = pygame.transform.rotate(self.base_sprite, -degree)
         self.sprite_rect = self.sprite.get_rect(center=(int(self.x), int(self.y)))
 
+        self.hitbox = pygame.mask.from_surface(self.sprite)
+        self.hitbox_drawn = self.hitbox.to_surface(None, None, None, (0, 255, 0), (0, 0, 0, 0))
+
         
 
     def draw(self, screen):
+        
+        #pygame.draw.rect(screen, "Green", self.sprite_rect)
         screen.blit(self.sprite, self.sprite_rect)
 
+        
     def rotate(self, degree):
         rad = math.radians(degree)
         self.vx = math.cos(rad)
