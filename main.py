@@ -36,7 +36,7 @@ pygame.display.set_caption("Final Project")
 clock = pygame.time.Clock()
 
 player = Player(320, 240)
-boss = Boss(320, 100, 2000)
+boss = Boss(320, 100, 1000)
 
 
 boss.rotate(180)
@@ -135,7 +135,9 @@ def main():
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_z] and player_bullet_cooldown == 0:
-            player_bullets.append(Player_Bullet(player.x, player.y))
+            player_bullets.append(Player_Bullet(player.x, player.y, True))
+            player_bullets.append(Player_Bullet(player.x - 10, player.y))
+            player_bullets.append(Player_Bullet(player.x + 10, player.y))
             player_bullet_cooldown = 10
 
         player.show_hitbox = False
@@ -184,9 +186,24 @@ def main():
         # Draw player bullets at the bottom
         for bullet in range(len(player_bullets) - 1, -1, -1):
             player_bullets[bullet].draw(screen)
-            player_bullets[bullet].move()
+            player_bullets[bullet].move(boss)
+
+            offset = (
+                player_bullets[bullet].rect.x - boss.sprite_rect.x,
+                player_bullets[bullet].rect.y - boss.sprite_rect.y
+            )
+
             if player_bullets[bullet].in_screen == False:
                 player_bullets.pop(bullet)
+                continue
+
+            if boss.hitbox.overlap(player_bullets[bullet].hitbox, offset):
+                boss.hp -= 1
+                player_bullets.pop(bullet)
+                continue
+
+            
+            
 
         # Draw player above that
         player.draw(screen)
@@ -214,10 +231,24 @@ def main():
         player_hp_text = font.render(f"Player Lives: {player.lives}", False, "White")
 
 
+
         # GUI elements are drawn last
-        screen.blit(boss_hp_text, (300, 5))
+
+        # Draws boss health bar
+        health_bar = pygame.Rect(5, 5, 10, boss.hp / 10)
+        if boss.hp > 0:
+            pygame.draw.rect(screen, "Green", health_bar)
+
+        boss_indicator_sprite = pygame.image.load("Sprites/spr_boss_indicator.png").convert_alpha()
+        boss_indicator_rect = boss_indicator_sprite.get_rect(center=(boss.x, 480))
+        screen.blit(boss_indicator_sprite, boss_indicator_rect)
+
+        screen.blit(boss_hp_text, (20, 5))
         screen.blit(player_hp_text, (5, 465))
         
+        
+
+
         if boss_attacks_timer > -1:
             boss_attacks_timer -= 1 # ticks down the timer while it's still active
 

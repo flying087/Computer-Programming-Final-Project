@@ -10,10 +10,13 @@ class Boss:
 
         self.base_sprite = pygame.image.load("Sprites/spr_boss_placeholder.png").convert_alpha()
         self.sprite = self.base_sprite
+        self.sprite_rect = self.sprite.get_rect(center=(self.x, self.y))
+        self.hitbox = pygame.mask.from_surface(self.sprite)
 
     def draw(self, screen):
-        sprite_rect = self.sprite.get_rect(center=(self.x, self.y))
-        screen.blit(self.sprite, sprite_rect) #sprite and stuff goes here
+        self.sprite_rect = self.sprite.get_rect(center=(self.x, self.y))
+        screen.blit(self.sprite, self.sprite_rect)
+        
 
 
     def atk_spiral(self, ammount, bullet_array, offset=0):

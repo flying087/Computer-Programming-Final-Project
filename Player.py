@@ -12,7 +12,7 @@ class Player:
 
         self.hitbox= pygame.mask.Mask((4, 4), fill=True)
         self.hitbox_rect = self.hitbox.get_rect(center=(x,y))
-        self.sprite = pygame.image.load("Sprites/ship_placeholder.png").convert_alpha()
+        self.sprite = pygame.image.load("Sprites/spr_ship_placeholder.png").convert_alpha()
 
         self.show_hitbox = False
 
