@@ -19,19 +19,26 @@ class Boss:
         
 
 
-    def atk_spiral(self, ammount, bullet_array, offset=0):
+    def atk_spiral(self, ammount, bullet_array, offset=0, bullet_speed = 2):
         for i in range(ammount):
-            bullet_array.append(Boss_Bullet(self.x, self.y, (i * 360/ammount) + offset))
+            bullet_array.append(Boss_Bullet(self.x, self.y, (i * 360/ammount) + offset, bullet_speed))
 
-    def atk_homing(self, x_target, y_target, bullet_array):
+    def atk_homing(self, x_target, y_target, bullet_array, bullet_speed = 2):
         dx = x_target - self.x
         dy = y_target - self.y
 
-        bullet_array.append(Boss_Bullet(self.x, self.y, math.degrees(math.atan2(dy, dx))))
+        bullet_array.append(Boss_Bullet(self.x, self.y, math.degrees(math.atan2(dy, dx)), bullet_speed))
 
-    def atk_wave(self, bullets_in_wave, starting_direction, space, bullet_array):
+    def atk_wave(self, bullets_in_wave, starting_direction, space, bullet_array, bullet_speed = 2):
         for i in range(bullets_in_wave):
-            bullet_array.append(Boss_Bullet(self.x, self.y, starting_direction + i * space))
+            bullet_array.append(Boss_Bullet(self.x, self.y, starting_direction + i * space, bullet_speed))
+            # Bullets go clockwise normally
+
+    def atk_line(self, bullet_x, bullet_y, bullet_array, bullets_in_row=1, direction=0, bullet_speed=2, bullet_spacing_x=5, bullet_spacing_y=0):
+        for i in range(bullets_in_row):
+            bullet_array.append(Boss_Bullet(bullet_x, bullet_y, direction, bullet_speed))
+            bullet_x += bullet_spacing_x # Positive bullet spacing moves to the right, negative moves to the left
+            bullet_y += bullet_spacing_y # Positiev bullet spacing moves up, negative moves down
         
     def move(self, x_target, y_target, speed, weight):
 

@@ -36,7 +36,7 @@ pygame.display.set_caption("Final Project")
 clock = pygame.time.Clock()
 
 player = Player(320, 240)
-boss = Boss(320, 100, 1000)
+boss = Boss(320, 100, 800)
 
 
 boss.rotate(180)
@@ -53,51 +53,29 @@ boss_attacks_timer = BOSS_TIMER_SECONDS * FPS
 boss_bullets = []
 #boss.atk_spiral(100, boss_bullets_test)
 
-# Pre-deicded boss attacks. Format is [attack, arguments, how many seconds in it should trigger]
-boss_attacks_timed = [
-    (boss.atk_spiral, (50, boss_bullets), 0),
-    (boss.atk_spiral, (50, boss_bullets, 10), 0.1),
-    (boss.atk_spiral, (50, boss_bullets, 15), 0.2),
-    (boss.atk_spiral, (50, boss_bullets, 20), 0.3),
-    (boss.atk_spiral, (50, boss_bullets, 25), 0.4),
-    (boss.atk_homing, (player.x, player.y, boss_bullets), 1),
-    (boss.move, (10, 10, 2, .04), 2),
-    (boss.atk_wave, (5, 45, 5, boss_bullets), 3),
-    (boss.atk_spiral, (50, boss_bullets), 4),
-    (boss.move, (600, 200, 3, .04), 6),
-    (boss.atk_homing, (player.x, player.y, boss_bullets), 6.5),
-    (boss.atk_spiral, (10, boss_bullets), 7),
-    (boss.atk_spiral, (10, boss_bullets), 8),
-    (boss.atk_spiral, (10, boss_bullets), 9),
-    (boss.atk_spiral, (40, boss_bullets), 10),
-    (boss.move, (300, 300, 6, .04), 10.5),
-    (boss.atk_spiral, (50, boss_bullets), 11),
-    (boss.atk_spiral, (50, boss_bullets, 5), 11.5),
-    (boss.atk_spiral, (50, boss_bullets, 10), 12),
-    (boss.atk_spiral, (50, boss_bullets, 15), 12.5),
-    (boss.atk_spiral, (50, boss_bullets, 20), 13),
+# Pre-deicded boss attacks. Format is (boss.attack, (arguments), how many seconds in it should trigger)
+boss_attacks_timed =[
+    (boss.move, (100, 50, 2, .08), .5),
+    (boss.atk_spiral, (10, boss_bullets, 0, 5), 1.5),
+    (boss.move, (WIDTH - 100, 50, 2, .08), 2.5),
+    (boss.atk_spiral, (10, boss_bullets, 0, 5), 3.5),
+    (boss.move, (320, 80, 2, .08), 5),
+    (boss.atk_spiral, (50, boss_bullets, 0, 3), 6),
+    (boss.move, (120, 380, 2, .08), 7),
+    (boss.atk_wave, (40, 200, 5, boss_bullets, 3), 8.5),
+    (boss.move, (WIDTH - 120, 380, 2, .08), 9),
+    (boss.atk_wave, (40, 280, -5, boss_bullets, 3), 10.5),
+    (boss.move, (320, 200, 2, .03), 11),
 
-    (boss.atk_spiral, (50, boss_bullets), 14),
-    (boss.atk_spiral, (50, boss_bullets, 10), 14.1),
-    (boss.atk_spiral, (50, boss_bullets, 15), 14.2),
-    (boss.atk_spiral, (50, boss_bullets, 20), 14.3),
-    (boss.atk_spiral, (50, boss_bullets, 25), 14.4),
-    (boss.atk_homing, (player.x, player.y, boss_bullets), 15),
-    (boss.move, (10, 10, 2, .04), 16),
-    (boss.atk_spiral, (50, boss_bullets), 17),
-    (boss.move, (600, 200, 3, .04), 18),
-    (boss.atk_homing, (player.x, player.y, boss_bullets), 20.5),
-    (boss.atk_spiral, (10, boss_bullets), 21),
-    (boss.atk_spiral, (10, boss_bullets), 22),
-    (boss.atk_spiral, (10, boss_bullets), 23),
-    (boss.atk_spiral, (40, boss_bullets), 24),
-    (boss.move, (300, 300, 6, .04), 24.5),
-    (boss.atk_spiral, (50, boss_bullets), 25),
-    (boss.atk_spiral, (50, boss_bullets, 5), 25.5),
-    (boss.atk_spiral, (50, boss_bullets, 10), 26),
-    (boss.atk_spiral, (50, boss_bullets, 15), 26.5),
-    (boss.atk_spiral, (50, boss_bullets, 20), 27),
+    (boss.atk_spiral, (60, boss_bullets, 0, .5), 13),
+    (boss.atk_spiral, (60, boss_bullets, 45, .5), 13.5),
+    (boss.atk_spiral, (60, boss_bullets, 0, .5), 14),
+    (boss.atk_spiral, (60, boss_bullets, 45, .5), 14.5),
+    (boss.atk_spiral, (60, boss_bullets, 0, .5), 15),
+    (boss.atk_spiral, (60, boss_bullets, 45, .5), 15.5),
+    (boss.atk_spiral, (60, boss_bullets, 0, .5), 16),
 
+    (boss.atk_line, (500, 100, boss_bullets, 5, 90, 2, 10), 17),
 ]
 
 boss_hp_text = font.render("Boss HP", False, "White")
@@ -136,8 +114,8 @@ def main():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_z] and player_bullet_cooldown == 0:
             player_bullets.append(Player_Bullet(player.x, player.y, True))
-            player_bullets.append(Player_Bullet(player.x - 10, player.y))
-            player_bullets.append(Player_Bullet(player.x + 10, player.y))
+            player_bullets.append(Player_Bullet(player.x - 8, player.y))
+            player_bullets.append(Player_Bullet(player.x + 8, player.y))
             player_bullet_cooldown = 10
 
         player.show_hitbox = False
@@ -202,8 +180,6 @@ def main():
                 player_bullets.pop(bullet)
                 continue
 
-            
-            
 
         # Draw player above that
         player.draw(screen)
@@ -235,12 +211,12 @@ def main():
         # GUI elements are drawn last
 
         # Draws boss health bar
-        health_bar = pygame.Rect(5, 5, 10, boss.hp / 10)
+        health_bar = pygame.Rect(5, 5, 10, boss.hp / 4)
         if boss.hp > 0:
             pygame.draw.rect(screen, "Green", health_bar)
 
         boss_indicator_sprite = pygame.image.load("Sprites/spr_boss_indicator.png").convert_alpha()
-        boss_indicator_rect = boss_indicator_sprite.get_rect(center=(boss.x, 480))
+        boss_indicator_rect = boss_indicator_sprite.get_rect(center=(boss.x, 469))
         screen.blit(boss_indicator_sprite, boss_indicator_rect)
 
         screen.blit(boss_hp_text, (20, 5))

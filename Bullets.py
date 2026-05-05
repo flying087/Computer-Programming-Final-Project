@@ -48,15 +48,17 @@ class Player_Bullet:
 
             self.sprite_rect = self.sprite.get_rect(center=(self.x, self.y))
 
-        if self.y < 0:
+        if self.y < 0 or self.y > 480 or self.x < 0 or self.x > 640:
             self.in_screen = False
 
 
 
 class Boss_Bullet:
-    def __init__(self, x, y, degree = 0):
+    def __init__(self, x, y, degree = 0, speed = 2):
         self.x = float(x)
         self.y = float(y)
+
+        self.speed = speed
 
         self.base_sprite = pygame.image.load("Sprites/spr_boss_bullet.png").convert_alpha()
         self.sprite = self.base_sprite
@@ -90,8 +92,8 @@ class Boss_Bullet:
         self.sprite_rect = self.sprite.get_rect(center=(int(self.x), int(self.y)))
 
     def move(self, speed):
-        self.x += self.vx * speed
-        self.y += self.vy * speed
+        self.x += self.vx * self.speed
+        self.y += self.vy * self.speed
 
         self.sprite_rect = self.sprite.get_rect(center=(self.x, self.y))
 
