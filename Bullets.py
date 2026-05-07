@@ -98,6 +98,43 @@ class Boss_Bullet:
         self.sprite_rect = self.sprite.get_rect(center=(self.x, self.y))
 
 class Boss_Orb:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, x, y, degree = 0, speed = 2):
+        self.x = float(x)
+        self.y = float(y)
+
+        self.speed = speed
+
+        self.base_sprite = pygame.image.load("Sprites/spr_boss_orb.png").convert_alpha()
+        self.sprite = self.base_sprite
+
+        self.sprite_rect = self.sprite.get_rect(center=(self.x, self.y))
+
+        rad = math.radians(degree)
+        self.vx = math.cos(rad)
+        self.vy = math.sin(rad)
+
+        self.sprite_rect = self.sprite.get_rect(center=(int(self.x), int(self.y)))
+
+        self.hitbox = pygame.mask.from_surface(self.sprite)
+        self.hitbox_drawn = self.hitbox.to_surface(None, None, None, (0, 255, 0), (0, 0, 0, 0))
+
+        
+
+    def draw(self, screen):
+        
+        #pygame.draw.rect(screen, "Green", self.sprite_rect)
+        screen.blit(self.sprite, self.sprite_rect)
+
+
+    def rotate(self, degree):
+        rad = math.radians(degree)
+        self.vx = math.cos(rad)
+        self.vy = math.sin(rad)
+
+        self.sprite_rect = self.sprite.get_rect(center=(int(self.x), int(self.y)))
+
+    def move(self, speed):
+        self.x += self.vx * self.speed
+        self.y += self.vy * self.speed
+
+        self.sprite_rect = self.sprite.get_rect(center=(self.x, self.y))

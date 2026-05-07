@@ -1,6 +1,6 @@
 import pygame
 import math
-from Bullets import Boss_Bullet
+from Bullets import Boss_Bullet, Boss_Orb
 
 class Boss:
     def __init__(self, x, y, hp):
@@ -23,6 +23,10 @@ class Boss:
         for i in range(ammount):
             bullet_array.append(Boss_Bullet(self.x, self.y, (i * 360/ammount) + offset, bullet_speed))
 
+    def atk_spiral_orb(self, ammount, bullet_array, offset=0, orb_speed = 2):
+        for i in range(ammount):
+            bullet_array.append(Boss_Orb(self.x, self.y, (i * 360/ammount) + offset, orb_speed))
+
     def atk_homing(self, x_target, y_target, bullet_array, bullet_speed = 2):
         dx = x_target - self.x
         dy = y_target - self.y
@@ -40,7 +44,7 @@ class Boss:
             bullet_x += bullet_spacing_x # Positive bullet spacing moves to the right, negative moves to the left
             bullet_y += bullet_spacing_y # Positiev bullet spacing moves up, negative moves down
         
-    def move(self, x_target, y_target, speed, weight):
+    def move(self, x_target, y_target, weight=.03):
 
 
         self.x = pygame.math.lerp(self.x, x_target, weight)
@@ -51,10 +55,6 @@ class Boss:
         else:
             return False
 
-        # if (self.x >= (x_target - speed)) and ((x_target + speed) >= self.x) and (self.y >= (y_target - speed)) and (self.y <= (y_target + speed)):
-        #     return True
-        # else:
-        #     return False
 
     def rotate(self, degree):
         self.sprite = pygame.transform.rotate(self.base_sprite, degree)

@@ -10,7 +10,7 @@ class Player:
         self.invincible = False
         self.alpha_halved = False
 
-        self.hitbox= pygame.mask.Mask((4, 4), fill=True)
+        self.hitbox= pygame.mask.Mask((3, 3), fill=True)
         self.hitbox_rect = self.hitbox.get_rect(center=(x,y))
         self.sprite = pygame.image.load("Sprites/spr_ship_placeholder.png").convert_alpha()
 
@@ -22,7 +22,7 @@ class Player:
         self.hitbox_rect.center = (self.x, self.y)
         screen.blit(self.sprite, sprite_rect)
         if self.show_hitbox == True:
-            pygame.draw.rect(screen, "Green", self.hitbox_rect)
+            pygame.draw.rect(screen, "Red", self.hitbox_rect)
 
     def move(self, h_dir, v_dir):
         self.x += h_dir

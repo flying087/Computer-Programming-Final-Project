@@ -55,27 +55,91 @@ boss_bullets = []
 
 # Pre-deicded boss attacks. Format is (boss.attack, (arguments), how many seconds in it should trigger)
 boss_attacks_timed =[
-    (boss.move, (100, 50, 2, .08), .5),
+    (boss.move, (100, 50, .08), .5),
     (boss.atk_spiral, (10, boss_bullets, 0, 5), 1.5),
-    (boss.move, (WIDTH - 100, 50, 2, .08), 2.5),
+    (boss.move, (WIDTH - 100, 50, .08), 2.5),
     (boss.atk_spiral, (10, boss_bullets, 0, 5), 3.5),
-    (boss.move, (320, 80, 2, .08), 5),
+    (boss.move, (320, 80, .08), 5),
     (boss.atk_spiral, (50, boss_bullets, 0, 3), 6),
-    (boss.move, (120, 380, 2, .08), 7),
+    (boss.move, (120, 380, .08), 7),
     (boss.atk_wave, (40, 200, 5, boss_bullets, 3), 8.5),
-    (boss.move, (WIDTH - 120, 380, 2, .08), 9),
+    (boss.move, (WIDTH - 120, 380, .08), 9),
     (boss.atk_wave, (40, 280, -5, boss_bullets, 3), 10.5),
-    (boss.move, (320, 200, 2, .03), 11),
+    (boss.move, (320, 200), 11),
 
-    (boss.atk_spiral, (60, boss_bullets, 0, .5), 13),
-    (boss.atk_spiral, (60, boss_bullets, 45, .5), 13.5),
-    (boss.atk_spiral, (60, boss_bullets, 0, .5), 14),
-    (boss.atk_spiral, (60, boss_bullets, 45, .5), 14.5),
     (boss.atk_spiral, (60, boss_bullets, 0, .5), 15),
     (boss.atk_spiral, (60, boss_bullets, 45, .5), 15.5),
     (boss.atk_spiral, (60, boss_bullets, 0, .5), 16),
+    (boss.atk_spiral, (60, boss_bullets, 45, .5), 16.5),
+    (boss.atk_spiral, (60, boss_bullets, 0, .5), 17),
+    (boss.atk_spiral, (60, boss_bullets, 45, .5), 17.5),
+    (boss.atk_spiral, (60, boss_bullets, 0, .5), 18),
 
-    (boss.atk_line, (500, 100, boss_bullets, 5, 90, 2, 10), 17),
+    (boss.move, (320, 50), 19),
+
+    (boss.atk_line, (5, -10, boss_bullets, 5, 90, 4, 20), 20),
+    (boss.atk_line, (635, -10, boss_bullets, 5, 90, 4, -20), 20),
+
+    (boss.atk_line, (125, -10, boss_bullets, 5, 90, 4, 20), 21),
+    (boss.atk_line, (515, -10, boss_bullets, 5, 90, 4, -20), 21),
+
+    (boss.move, (100, 50), 21.5),
+
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 21.6),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 21.9),
+
+    (boss.atk_line, (245, -10, boss_bullets, 5, 90, 4, 20), 22),
+    (boss.atk_line, (395, -10, boss_bullets, 5, 90, 4, -20), 22),
+
+    (boss.move, (440, 50), 23.5),
+
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 24),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 24.5),
+
+    (boss.move, (80, 210), 25.5),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 26),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 26.2),
+
+    (boss.move, (500, 140), 26.8),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 27.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 4), 27.5),
+
+    (boss.atk_wave, (20, 90, 5, boss_bullets, 6), 28),
+
+    (boss.move, (320, 50), 28.5),
+    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 29),
+    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 29.5),
+    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 30),
+    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 30.5),
+    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 31),
+    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 31.5),
+    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 32),
+    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 32.5),
+    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 33),
+    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 33.5),
+    (boss.atk_spiral, (50, boss_bullets, 10, 1), 33.7),
+    
+    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 34.5),
+    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 35.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 36.5),
+    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 37.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 38.5),
+    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 39.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 40.5),
+    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 41.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 42.5),
+    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 43.5),
+
+    (boss.atk_spiral_orb, (10, boss_bullets, 0), 45),
+    (boss.atk_spiral_orb, (10, boss_bullets, 10), 45.2),
+    (boss.atk_spiral_orb, (10, boss_bullets, 20), 45.4),
+    (boss.atk_spiral_orb, (10, boss_bullets, 30), 45.6),
+    (boss.atk_spiral_orb, (10, boss_bullets, 40), 45.8),
+    (boss.atk_spiral_orb, (10, boss_bullets, 50), 45.8),
+
+    (boss.move, (600, 110), 47),
+
+
 ]
 
 boss_hp_text = font.render("Boss HP", False, "White")
@@ -120,7 +184,7 @@ def main():
 
         player.show_hitbox = False
         if keys[pygame.K_x]:
-            PLAYER_SPEED = 2
+            PLAYER_SPEED = 1
             player.show_hitbox = True
         else:
             PLAYER_SPEED = 4
@@ -146,7 +210,8 @@ def main():
                 
                 atk, args, time = boss_attacks_timed[i]
                 if atk.__name__ == "atk_homing":
-                    args = ((player.x, player.y, boss_bullets))
+                    
+                    args = ((player.x, player.y, boss_bullets, boss_attacks_timed[i][1][3]))
 
                 atk(*args)
                 
