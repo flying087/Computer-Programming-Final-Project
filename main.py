@@ -1,6 +1,7 @@
 # imports
 import pygame
 import math
+import random
 from Player import Player
 from Bullets import Player_Bullet, Boss_Bullet, Boss_Orb
 from Boss import Boss
@@ -22,7 +23,7 @@ BACKGROUND_COLOR = (0, 0, 0)
 PLAYER_SPEED = 4
 PLAYER_DAMAGE = 2
 
-# How long the boss 
+# How long the boss attacks for
 BOSS_TIMER_SECONDS = 200
 
 pygame.init() # Initiates all pygame modules
@@ -107,39 +108,209 @@ boss_attacks_timed =[
     (boss.atk_wave, (20, 90, 5, boss_bullets, 6), 28),
 
     (boss.move, (320, 50), 28.5),
-    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 29),
-    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 29.5),
-    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 30),
-    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 30.5),
-    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 31),
-    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 31.5),
-    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 32),
-    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 32.5),
-    (boss.atk_line, (10, -5, boss_bullets, 31, 90, 2.5, 20), 33),
-    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 2.5, 20), 33.5),
+    (boss.atk_line, (10, -5, boss_bullets, 32, 90, 2.5, 20), 29),
+    (boss.atk_line, (0, -5, boss_bullets, 33, 90, 2.5, 20), 29.5),
+    (boss.atk_line, (10, -5, boss_bullets, 32, 90, 2.5, 20), 30),
+    (boss.atk_line, (0, -5, boss_bullets, 33, 90, 2.5, 20), 30.5),
+    (boss.atk_line, (10, -5, boss_bullets, 32, 90, 2.5, 20), 31),
+    (boss.atk_line, (0, -5, boss_bullets, 33, 90, 2.5, 20), 31.5),
+    (boss.atk_line, (10, -5, boss_bullets, 32, 90, 2.5, 20), 32),
+    (boss.atk_line, (0, -5, boss_bullets, 33, 90, 2.5, 20), 32.5),
+    (boss.atk_line, (10, -5, boss_bullets, 32, 90, 2.5, 20), 33),
+    (boss.atk_line, (0, -5, boss_bullets, 33, 90, 2.5, 20), 33.5),
     (boss.atk_spiral, (50, boss_bullets, 10, 1), 33.7),
     
-    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 34.5),
-    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 35.5),
-    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 36.5),
-    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 37.5),
-    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 38.5),
-    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 39.5),
-    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 40.5),
-    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 41.5),
-    (boss.atk_line, (-5, 10, boss_bullets, 23, 0, 2, 0, 20), 42.5),
-    (boss.atk_line, (645, 0, boss_bullets, 24, 180, 2, 0, 20), 43.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 24, 0, 2, 0, 20), 34.5),
+    (boss.atk_line, (645, 0, boss_bullets, 25, 180, 2, 0, 20), 35.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 24, 0, 2, 0, 20), 36.5),
+    (boss.atk_line, (645, 0, boss_bullets, 25, 180, 2, 0, 20), 37.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 24, 0, 2, 0, 20), 38.5),
+    (boss.atk_line, (645, 0, boss_bullets, 25, 180, 2, 0, 20), 39.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 24, 0, 2, 0, 20), 40.5),
+    (boss.atk_line, (645, 0, boss_bullets, 25, 180, 2, 0, 20), 41.5),
+    (boss.atk_line, (-5, 10, boss_bullets, 24, 0, 2, 0, 20), 42.5),
+    (boss.atk_line, (645, 0, boss_bullets, 25, 180, 2, 0, 20), 43.5),
 
-    (boss.atk_spiral_orb, (10, boss_bullets, 0), 45),
+    (boss.atk_spiral_orb, (10, boss_bullets), 45),
     (boss.atk_spiral_orb, (10, boss_bullets, 10), 45.2),
     (boss.atk_spiral_orb, (10, boss_bullets, 20), 45.4),
     (boss.atk_spiral_orb, (10, boss_bullets, 30), 45.6),
     (boss.atk_spiral_orb, (10, boss_bullets, 40), 45.8),
-    (boss.atk_spiral_orb, (10, boss_bullets, 50), 45.8),
+    (boss.atk_spiral_orb, (10, boss_bullets, 50), 46),
+    (boss.atk_spiral_orb, (10, boss_bullets, 60), 46.2),
+    (boss.atk_spiral_orb, (10, boss_bullets, 70), 46.4),
+    (boss.atk_spiral_orb, (10, boss_bullets, 80), 46.6),
+    (boss.atk_spiral_orb, (10, boss_bullets, 90), 46.8),
 
     (boss.move, (600, 110), 47),
+    (boss.atk_spiral_orb, (20, boss_bullets, 0, 1), 48),
+    (boss.atk_spiral_orb, (20, boss_bullets, 350, 1), 48.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 340, 1), 48.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 330, 1), 48.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 320, 1), 48.8),
+    (boss.atk_spiral_orb, (20, boss_bullets, 310, 1), 49),
+    (boss.atk_spiral_orb, (20, boss_bullets, 300, 1), 49.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 290, 1), 49.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 280, 1), 49.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 270, 1), 49.8),
+
+    (boss.move, (140, 400), 50),
+    (boss.atk_spiral_orb, (20, boss_bullets, 0, 1), 51),
+    (boss.atk_spiral_orb, (20, boss_bullets, 10, 1), 51.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 20, 1), 51.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 30, 1), 51.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 40, 1), 51.8),
+    (boss.atk_spiral_orb, (20, boss_bullets, 50, 1), 52),
+    (boss.atk_spiral_orb, (20, boss_bullets, 60, 1), 52.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 70, 1), 52.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 80, 1), 52.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 90, 1), 52.8),
+
+    (boss.move, (600, 310), 53),
+    (boss.atk_spiral_orb, (20, boss_bullets, 0, 1), 54.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 350, 1), 54.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 340, 1), 54.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 330, 1), 54.8),
+    (boss.atk_spiral_orb, (20, boss_bullets, 320, 1), 55),
+    (boss.atk_spiral_orb, (20, boss_bullets, 310, 1), 55.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 300, 1), 55.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 290, 1), 55.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 280, 1), 55.8),
+    (boss.atk_spiral_orb, (20, boss_bullets, 270, 1), 56),
+    (boss.atk_spiral_orb, (20, boss_bullets, 260, 1), 56.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 250, 1), 56.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 240, 1), 56.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 230, 1), 56.8),
+    (boss.atk_spiral_orb, (20, boss_bullets, 220, 1), 57),
+    (boss.atk_spiral_orb, (20, boss_bullets, 210, 1), 57.2),
+    (boss.atk_spiral_orb, (20, boss_bullets, 200, 1), 57.4),
+    (boss.atk_spiral_orb, (20, boss_bullets, 190, 1), 57.6),
+    (boss.atk_spiral_orb, (20, boss_bullets, 180, 1), 57.8),
+    (boss.atk_spiral_orb, (20, boss_bullets, 170, 1), 58),
 
 
+    (boss.move, (440, 310), 59),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 59.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 59.6),
+    (boss.move, (380, 260), 60),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 60.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 60.6),
+    (boss.move, (200, 110), 61),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 61.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 61.6),
+    (boss.move, (80, 440), 62),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 62.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 62.6),
+    (boss.move, (170, 330), 63),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 63.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 63.6),
+    (boss.move, (170, 200), 64),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 64.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 64.6),
+    (boss.move, (280, 250), 65),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 65.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 65.6),
+    (boss.move, (390, 100), 66),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 66.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 66.6),
+    (boss.move, (500, 220), 67),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 67.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 67.6),
+    (boss.move, (370, 310), 68),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 68.3),
+    (boss.atk_homing, (player.x, player.y, boss_bullets, 10), 68.6),
+
+    (boss.move, (320, 20), 71),
+    
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 73.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 20, 4), 73.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 40, 4), 73.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 60, 4), 73.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 80, 4), 74),
+    (boss.atk_spiral_orb, (40, boss_bullets, 100, 4), 74.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 80, 4), 74.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 60, 4), 74.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 40, 4), 74.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 20, 4), 75),
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 75.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 340, 4), 75.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 320, 4), 75.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 300, 4), 75.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 280, 4), 76),
+    (boss.atk_spiral_orb, (40, boss_bullets, 260, 4), 76.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 280, 4), 76.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 300, 4), 76.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 320, 4), 76.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 340, 4), 77),
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 77.2),
+
+    (boss.atk_spiral, (50, boss_bullets), 78),
+    (boss.atk_spiral, (50, boss_bullets, 45), 78.3),
+    (boss.atk_spiral, (50, boss_bullets), 78.6),
+
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 79.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 20, 4), 79.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 40, 4), 79.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 60, 4), 79.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 80, 4), 80),
+    (boss.atk_spiral_orb, (40, boss_bullets, 100, 4), 80.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 80, 4), 80.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 60, 4), 80.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 40, 4), 80.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 20, 4), 81),
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 81.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 340, 4), 81.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 320, 4), 81.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 300, 4), 81.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 280, 4), 82),
+    (boss.atk_spiral_orb, (40, boss_bullets, 260, 4), 82.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 280, 4), 82.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 300, 4), 82.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 320, 4), 82.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 340, 4), 83),
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 83.2),
+
+    (boss.atk_spiral, (50, boss_bullets), 84),
+    (boss.atk_spiral, (50, boss_bullets, 45), 84.3),
+    (boss.atk_spiral, (50, boss_bullets), 84.6),
+
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 85.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 20, 4), 85.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 40, 4), 85.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 60, 4), 85.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 80, 4), 86),
+    (boss.atk_spiral_orb, (40, boss_bullets, 100, 4), 86.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 80, 4), 86.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 60, 4), 86.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 40, 4), 86.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 20, 4), 87),
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 87.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 340, 4), 87.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 320, 4), 87.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 300, 4), 87.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 280, 4), 88),
+    (boss.atk_spiral_orb, (40, boss_bullets, 260, 4), 88.2),
+    (boss.atk_spiral_orb, (40, boss_bullets, 280, 4), 88.4),
+    (boss.atk_spiral_orb, (40, boss_bullets, 300, 4), 88.6),
+    (boss.atk_spiral_orb, (40, boss_bullets, 320, 4), 88.8),
+    (boss.atk_spiral_orb, (40, boss_bullets, 340, 4), 89),
+    (boss.atk_spiral_orb, (40, boss_bullets, 0, 4), 89.2),
+
+    (boss.atk_spiral, (50, boss_bullets), 90),
+    (boss.atk_spiral, (50, boss_bullets, 45), 90.3),
+    (boss.atk_spiral, (50, boss_bullets), 90.6),
+
+    (boss.atk_line, (0, -5, boss_bullets, 32, 90, 5, 5), 92),
+    (boss.atk_line, (640, -5, boss_bullets, 32, 90, 5, -5), 92),
+
+    (boss.atk_line, (320, 485, boss_bullets, 32, 270, 5, -5), 92),
+    (boss.atk_line, (320, 485, boss_bullets, 32, 270, 5, 5), 92),
+
+    (boss.atk_line, (-5, 0, boss_bullets, 24, 0, 5, 0, 5), 93),
+    (boss.atk_line, (-5, 480, boss_bullets, 24, 0, 5, 0, -5), 93),
+
+    (boss.atk_line, (645, 240, boss_bullets, 24, 180, 5, 0, 5), 93),
+    (boss.atk_line, (645, 240, boss_bullets, 24, 180, 5, 0, -5), 93),
 ]
 
 boss_hp_text = font.render("Boss HP", False, "White")
@@ -148,6 +319,8 @@ player_iframe_alarm = 3 * FPS
 
 current_boss_movement = None
 current_boss_movement_args = None
+
+boss_attacks_extra_timer = 0
 def main():
     running = True
     global player_bullet_cooldown
@@ -159,6 +332,7 @@ def main():
     global current_boss_movement_args
     global boss_met_target
     global player_iframe_alarm
+    global boss_attacks_extra_timer
 
     while running:
         screen.fill(BACKGROUND_COLOR)
@@ -221,7 +395,31 @@ def main():
 
                     boss_met_target = False
 
+                if i == len(boss_attacks_timed) - 1:
+                    boss_attacks_timer = -1
 
+
+        if boss_attacks_timer == -1:
+            current_boss_movement = boss.move
+            boss_met_target = False
+
+            if boss_attacks_extra_timer >= 0 * FPS:
+                current_boss_movement_args = (320, 80, .08)
+            if boss_attacks_extra_timer >= 1 * FPS:
+                current_boss_movement_args = (500, 240, .08)
+            if boss_attacks_extra_timer >= 2 * FPS:
+                current_boss_movement_args = (320, 400, .08)
+            if boss_attacks_extra_timer >= 3 * FPS:
+                current_boss_movement_args = (140, 240, .08)
+
+            if boss_attacks_extra_timer % 40 == 0:
+                boss.atk_spiral_orb(30, boss_bullets, random.randint(0, 90), 1.2)
+            elif boss_attacks_extra_timer % 10 == 0:
+                boss.atk_spiral(30, boss_bullets, random.randint(0, 90), 1.4)
+
+            boss_attacks_extra_timer += 1
+            if boss_attacks_extra_timer > 4 * FPS:
+                boss_attacks_extra_timer = 0
 
         # Drawing
                 
@@ -263,6 +461,11 @@ def main():
                 boss_bullets[bullet].sprite_rect.x - player.hitbox_rect.x,
                 boss_bullets[bullet].sprite_rect.y - player.hitbox_rect.y
             )
+
+            if boss_bullets[bullet].x < -10 or boss_bullets[bullet].x > 650 or boss_bullets[bullet].y < -10 or boss_bullets[bullet].y > 490:
+                boss_bullets.pop(bullet)
+                continue
+                
             if player.hitbox.overlap(boss_bullets[bullet].hitbox, offset) and player.invincible == False:
                 player.lives -= 1
                 player.invincible = True
