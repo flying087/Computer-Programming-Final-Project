@@ -12,3 +12,10 @@ You can damage the boss by shooting at it. To shoot, hold the **[Z]** key. You'l
 
 ### Hitbox
 You only loose a life when your hitbox is hit, not your entire ship. Since your hitbox is a lot smaller than your actual ship, you can maneuver through gaps that may not seem wide enough at first.
+
+
+
+# Features
+It will include a player-controlled object, a boss enemy object, player and boss bullets, and various bullet patterns calculated using math. I would also like it to have a main menu, a “Game Over” screen, a screen congratulating the player when they defeat the boss, sounds for when the player and boss attack, and a display showing the boss’s health points. 
+
+It must include a health system to dictate when the enemy dies, a bullet-firing system so that bullet patterns can be triggered in a sequence without it becoming unfair, and a collision system to allow the player to be hit by the boss’s bullets and the boss to be hit by the player’s bullets. It must also include the player character, boss and bullets.
